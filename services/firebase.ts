@@ -1,0 +1,49 @@
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+
+import { db } from "@/lib/firebase";
+import { UserProfile } from "@/types/user";
+
+export async function createUserProfile(
+  uid: string,
+  email: string,
+  fullName: string
+) {
+  await setDoc(doc(db, "users", uid), {
+    uid,
+    name: fullName,
+    email,
+
+    role: "user",
+
+    balance: 0,
+    totalEarned: 0,
+    totalWithdraw: 0,
+
+    referralCode: uid.slice(0, 8).toUpperCase(),
+    referredBy: null,
+
+    isBlocked: false,
+
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function getUserProfile(
+  uid: string
+): Promise<UserProfile | null> {
+  const docRef = doc(db, "users", uid);
+
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.exists()) {
+    return null;
+  }
+
+  return docSnap.data() as UserProfile;
+}
