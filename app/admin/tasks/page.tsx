@@ -1,117 +1,76 @@
 "use client";
 
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import {
-  FaWallet,
-  FaMoneyBillWave,
-  FaUsers,
-  FaGift,
-} from "react-icons/fa";
+import { useState } from "react";
 
-export default function DashboardPage() {
+export default function AdminTasksPage() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [reward, setReward] = useState(0);
+  const [category, setCategory] = useState("Daily");
+  const [link, setLink] = useState("");
+
   return (
-    <ProtectedRoute>
-      <DashboardLayout>
+    <main className="min-h-screen bg-slate-950 p-6 text-white">
+      <div className="mx-auto max-w-3xl rounded-2xl bg-slate-900 p-8">
 
-        {/* Balance */}
-        <div className="rounded-3xl bg-gradient-to-r from-emerald-500 to-green-600 p-6 text-black shadow-2xl md:p-8">
+        <h1 className="mb-8 text-3xl font-bold">
+          Create Task
+        </h1>
 
-          <p className="text-base font-medium md:text-lg">
-            Available Balance
-          </p>
+        <div className="space-y-5">
 
-          <h2 className="mt-2 text-3xl font-extrabold md:text-5xl">
-            ৳0.00
-          </h2>
+          <input
+            type="text"
+            placeholder="Task Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 p-3"
+          />
 
-          <p className="mt-3 text-sm md:text-base">
-            Start completing tasks to earn rewards.
-          </p>
+          <textarea
+            placeholder="Task Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 p-3"
+          />
 
-        </div>
+          <input
+            type="number"
+            placeholder="Reward"
+            value={reward}
+            onChange={(e) => setReward(Number(e.target.value))}
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 p-3"
+          />
 
-        {/* Stats */}
-        <div className="mt-6 grid grid-cols-1 gap-4 md:mt-8 md:grid-cols-3 md:gap-6">
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 p-3"
+          >
+            <option>Daily</option>
+            <option>Survey</option>
+            <option>Video</option>
+            <option>Offerwall</option>
+            <option>App Install</option>
+          </select>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-            <FaWallet className="text-3xl text-emerald-400" />
-            <p className="mt-4 text-slate-400">
-              Total Earned
-            </p>
-            <h2 className="mt-2 text-3xl font-bold">
-              ৳0
-            </h2>
-          </div>
+          <input
+            type="text"
+            placeholder="Task Link"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 p-3"
+          />
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-            <FaMoneyBillWave className="text-3xl text-blue-400" />
-            <p className="mt-4 text-slate-400">
-              Total Withdraw
-            </p>
-            <h2 className="mt-2 text-3xl font-bold">
-              ৳0
-            </h2>
-          </div>
-
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-            <FaUsers className="text-3xl text-yellow-400" />
-            <p className="mt-4 text-slate-400">
-              Referrals
-            </p>
-            <h2 className="mt-2 text-3xl font-bold">
-              0
-            </h2>
-          </div>
-
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mt-8">
-
-          <h2 className="mb-5 text-xl font-bold md:text-2xl">
-            Quick Actions
-          </h2>
-
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
-
-            <button className="rounded-2xl bg-emerald-500 p-4 font-bold text-black transition hover:scale-105">
-              💰 Earn
-            </button>
-
-            <button className="rounded-2xl bg-blue-600 p-4 font-bold transition hover:scale-105">
-              📋 Tasks
-            </button>
-
-            <button className="rounded-2xl bg-purple-600 p-4 font-bold transition hover:scale-105">
-              👥 Referral
-            </button>
-
-            <button className="rounded-2xl bg-orange-500 p-4 font-bold text-black transition hover:scale-105">
-              💳 Withdraw
-            </button>
-
-          </div>
+          <button
+            className="w-full rounded-xl bg-emerald-500 py-4 font-bold text-black"
+          >
+            Create Task
+          </button>
 
         </div>
 
-        {/* Coming Soon */}
-        <div className="mt-8 rounded-2xl border border-dashed border-slate-700 p-6 text-center md:mt-10 md:p-8">
-
-          <FaGift className="mx-auto text-4xl text-emerald-400 md:text-5xl" />
-
-          <h2 className="mt-4 text-xl font-bold md:text-2xl">
-            More Features Coming Soon
-          </h2>
-
-          <p className="mt-2 text-sm text-slate-400 md:text-base">
-            Surveys, Offerwalls, Referral Rewards,
-            Notifications and more are under development.
-          </p>
-
-        </div>
-
-      </DashboardLayout>
-    </ProtectedRoute>
+      </div>
+    </main>
   );
 }
