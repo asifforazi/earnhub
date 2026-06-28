@@ -7,11 +7,15 @@ export type UserProfile = {
   role: "user" | "admin";
 
   balance: number;
+
   totalEarned: number;
   totalWithdraw: number;
 
+  // Referral
   referralCode: string;
   referredBy: string | null;
+
+  referralIncome: number;
 
   referrals?: number;
 

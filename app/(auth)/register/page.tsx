@@ -2,7 +2,7 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FirebaseError } from "firebase/app";
 import { toast } from "sonner";
@@ -28,6 +28,7 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   if (ref) {
     setReferralCode(ref);
+    console.log("Referral from URL:", ref);
   }
 }, [searchParams]);
 

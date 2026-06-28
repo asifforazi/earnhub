@@ -37,6 +37,7 @@ export async function createUserProfile(
     balance: 0,
     totalEarned: 0,
     totalWithdraw: 0,
+    referralIncome: 0,
 
     referralCode: uid.slice(0, 8).toUpperCase(),
     referredBy,
