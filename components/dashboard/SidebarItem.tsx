@@ -8,12 +8,14 @@ type SidebarItemProps = {
   href: string;
   icon: IconType;
   label: string;
+  closeSidebar?: () => void;
 };
 
 export default function SidebarItem({
   href,
   icon: Icon,
   label,
+  closeSidebar,
 }: SidebarItemProps) {
   const pathname = usePathname();
 
@@ -22,13 +24,14 @@ export default function SidebarItem({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition-all duration-200 ${
+      onClick={closeSidebar}
+      className={`flex items-center gap-3 rounded-xl px-4 py-3 transition ${
         active
-          ? "bg-emerald-500 text-black"
+          ? "bg-emerald-500 font-semibold text-black"
           : "text-slate-300 hover:bg-slate-800 hover:text-white"
       }`}
     >
-      <Icon size={18} />
+      <Icon className="text-lg" />
       <span>{label}</span>
     </Link>
   );

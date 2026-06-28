@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaCoins, FaHistory, FaHome, FaSignOutAlt, FaUser, FaUsers, FaWallet } from "react-icons/fa";
+import {
+  FaCoins,
+  FaHistory,
+  FaHome,
+  FaSignOutAlt,
+  FaUser,
+  FaUsers,
+  FaWallet,
+} from "react-icons/fa";
 
 import { auth } from "@/lib/firebase";
 import { getUserProfile } from "@/services/firebase";
@@ -11,7 +19,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import SidebarItem from "./SidebarItem";
 import UserCard from "./UserCard";
 
-export default function Sidebar() {
+type SidebarProps = {
+  closeSidebar?: () => void;
+};
+
+export default function Sidebar({
+  closeSidebar,
+}: SidebarProps) {
   const router = useRouter();
   const { logout } = useAuth();
 
@@ -34,15 +48,16 @@ export default function Sidebar() {
   }, []);
 
   async function handleLogout() {
+    closeSidebar?.();
     await logout();
     router.push("/login");
   }
 
   return (
-    <aside className="flex h-screen w-72 flex-col border-r border-slate-800 bg-slate-900">
+    <aside className="flex h-screen w-72 flex-col overflow-y-auto border-r border-slate-800 bg-slate-900">
 
       {/* Logo */}
-      <div className="border-b border-slate-800 p-6 flex-shrink-0">
+      <div className="flex-shrink-0 border-b border-slate-800 p-6">
         <h1 className="text-3xl font-extrabold text-emerald-400">
           EarnHub
         </h1>
@@ -59,7 +74,7 @@ export default function Sidebar() {
       />
 
       {/* Menu */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
+      <div className="flex-1 overflow-y-auto px-4 py-2">
 
         <div className="space-y-2">
 
@@ -67,36 +82,42 @@ export default function Sidebar() {
             href="/dashboard"
             icon={FaHome}
             label="Dashboard"
+            closeSidebar={closeSidebar}
           />
 
           <SidebarItem
             href="/earn"
             icon={FaCoins}
             label="Earn"
+            closeSidebar={closeSidebar}
           />
 
           <SidebarItem
             href="/referral"
             icon={FaUsers}
             label="Referral"
+            closeSidebar={closeSidebar}
           />
 
           <SidebarItem
             href="/withdraw"
             icon={FaWallet}
             label="Withdraw"
+            closeSidebar={closeSidebar}
           />
 
           <SidebarItem
             href="/history"
             icon={FaHistory}
             label="History"
+            closeSidebar={closeSidebar}
           />
 
           <SidebarItem
             href="/profile"
             icon={FaUser}
             label="Profile"
+            closeSidebar={closeSidebar}
           />
 
         </div>

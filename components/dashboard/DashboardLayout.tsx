@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
@@ -11,25 +11,38 @@ type DashboardLayoutProps = {
 export default function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen bg-slate-950">
 
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+        />
+      )}
+
       {/* Sidebar */}
-      <Sidebar />
+      <div
+        className={`fixed left-0 top-0 z-50 h-screen w-72 transform transition-transform duration-300 lg:static lg:translate-x-0 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <Sidebar closeSidebar={() => setSidebarOpen(false)} />
+      </div>
 
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col">
+      {/* Main */}
+      <div className="flex min-w-0 flex-1 flex-col">
 
-        {/* Topbar */}
-        <Topbar />
+        <Topbar openSidebar={() => setSidebarOpen(true)} />
 
-        {/* Page Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6">
           {children}
         </main>
 
       </div>
-
     </div>
   );
 }
