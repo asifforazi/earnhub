@@ -32,10 +32,11 @@ type AuthContextType = {
   ) => Promise<void>;
 
   register: (
-    fullName: string,
-    email: string,
-    password: string
-  ) => Promise<void>;
+  fullName: string,
+  email: string,
+  password: string,
+  referralCode?: string
+) => Promise<void>;
 
   googleLogin: () => Promise<void>;
 
@@ -77,27 +78,35 @@ export function AuthProvider({
   }
 
   async function register(
-    fullName: string,
-    email: string,
-    password: string
-  ) {
-    const userCredential =
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-    await updateProfile(userCredential.user, {
-      displayName: fullName,
-    });
-
-    await createUserProfile(
-      userCredential.user.uid,
-      userCredential.user.email || email,
-      fullName
+  fullName: string,
+  email: string,
+  password: string,
+  referralCode?: string
+) {
+  const userCredential =
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
     );
+
+  await updateProfile(userCredential.user, {
+    displayName: fullName,
+  });
+
+  await createUserProfile(
+  userCredential.user.uid,
+  userCredential.user.email || email,
+  fullName,
+  referralCode || null
+);
+
+  // Referral system (next step)
+  if (referralCode) {
+    console.log("Referral Code:", referralCode);
   }
+}
+
 
   async function googleLogin() {
   const provider = new GoogleAuthProvider();

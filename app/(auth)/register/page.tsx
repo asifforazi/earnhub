@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FirebaseError } from "firebase/app";
 import { toast } from "sonner";
 
@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function RegisterPage() {
   const { register, googleLogin } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +22,14 @@ const [confirmPassword, setConfirmPassword] = useState("");
 const [showPassword, setShowPassword] = useState(false);
 const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
+  useEffect(() => {
+  const ref = searchParams.get("ref");
+
+  if (ref) {
+    setReferralCode(ref);
+  }
+}, [searchParams]);
 
   async function handleRegister(e: React.FormEvent) {
   e.preventDefault();
@@ -35,7 +44,12 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   try {
     setLoading(true);
 
-    await register(fullName, email, password);
+    await register(
+  fullName,
+  email,
+  password,
+  referralCode
+);
 
     toast.success("Account created successfully!", {
       description:

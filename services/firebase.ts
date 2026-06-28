@@ -15,7 +15,8 @@ import { UserProfile } from "@/types/user";
 export async function createUserProfile(
   uid: string,
   email: string,
-  fullName: string
+  fullName: string,
+  referredBy: string | null = null
 ) {
   const userRef = doc(db, "users", uid);
 
@@ -38,7 +39,7 @@ export async function createUserProfile(
     totalWithdraw: 0,
 
     referralCode: uid.slice(0, 8).toUpperCase(),
-    referredBy: null,
+    referredBy,
 
     isBlocked: false,
 
