@@ -13,7 +13,16 @@ export async function createUserProfile(
   email: string,
   fullName: string
 ) {
-  await setDoc(doc(db, "users", uid), {
+  const userRef = doc(db, "users", uid);
+
+  const existingUser = await getDoc(userRef);
+
+  // User already exists → do nothing
+  if (existingUser.exists()) {
+    return;
+  }
+
+  await setDoc(userRef, {
     uid,
     name: fullName,
     email,

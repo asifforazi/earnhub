@@ -31,6 +31,7 @@ export default function Sidebar({
 
   const [name, setName] = useState("User");
   const [balance, setBalance] = useState(0);
+  const [referralCode, setReferralCode] = useState("");
 
   useEffect(() => {
     async function loadUser() {
@@ -41,6 +42,7 @@ export default function Sidebar({
       if (data) {
         setName(data.name || "User");
         setBalance(data.balance || 0);
+        setReferralCode(data.referralCode || "");
       }
     }
 
@@ -71,6 +73,7 @@ export default function Sidebar({
       <UserCard
         name={name}
         balance={balance}
+        referralCode={referralCode}
       />
 
       {/* Menu */}

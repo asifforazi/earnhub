@@ -3,11 +3,13 @@
 type UserCardProps = {
   name: string;
   balance: number;
+  referralCode: string;
 };
 
 export default function UserCard({
   name,
   balance,
+  referralCode,
 }: UserCardProps) {
   return (
     <div className="mx-4 my-4 rounded-2xl border border-slate-700 bg-slate-800 p-4">
@@ -24,7 +26,7 @@ export default function UserCard({
           </h2>
 
           <p className="text-sm text-slate-400">
-            Member
+            Referral: <span className="font-medium text-emerald-400">{referralCode}</span>
           </p>
         </div>
 

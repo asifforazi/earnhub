@@ -100,10 +100,18 @@ export function AuthProvider({
   }
 
   async function googleLogin() {
-    const provider = new GoogleAuthProvider();
+  const provider = new GoogleAuthProvider();
 
-    await signInWithPopup(auth, provider);
-  }
+  const result = await signInWithPopup(auth, provider);
+
+  const user = result.user;
+
+  await createUserProfile(
+    user.uid,
+    user.email || "",
+    user.displayName || "User"
+  );
+}
 
   async function logout() {
     await signOut(auth);
