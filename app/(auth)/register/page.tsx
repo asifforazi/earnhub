@@ -2,14 +2,14 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FirebaseError } from "firebase/app";
 import { toast } from "sonner";
 
 import { useAuth } from "@/contexts/AuthContext";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const { register, googleLogin } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -227,5 +227,18 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 </button>
       </div>
     </main>
+  );
+}
+export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">
+          Loading...
+        </div>
+      }
+    >
+      <RegisterForm />
+    </Suspense>
   );
 }
