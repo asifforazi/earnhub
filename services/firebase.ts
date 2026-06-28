@@ -1,8 +1,12 @@
 import {
+  collection,
   doc,
   getDoc,
+  getDocs,
+  query,
   serverTimestamp,
   setDoc,
+  where,
 } from "firebase/firestore";
 
 import { db } from "@/lib/firebase";
@@ -55,4 +59,14 @@ export async function getUserProfile(
   }
 
   return docSnap.data() as UserProfile;
+}
+export async function getReferralCount(referralCode: string) {
+  const q = query(
+    collection(db, "users"),
+    where("referredBy", "==", referralCode)
+  );
+
+  const snapshot = await getDocs(q);
+
+  return snapshot.size;
 }

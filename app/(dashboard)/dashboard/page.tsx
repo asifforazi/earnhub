@@ -10,13 +10,16 @@ import QuickActions from "@/components/dashboard/QuickActions";
 import ComingSoon from "@/components/dashboard/ComingSoon";
 
 import { auth } from "@/lib/firebase";
-import { getUserProfile } from "@/services/firebase";
+import {
+  getReferralCount,
+  getUserProfile,
+} from "@/services/firebase";
 import { UserProfile } from "@/types/user";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
-
   const [loading, setLoading] = useState(true);
+  const [referralCount, setReferralCount] = useState(0);
 
   useEffect(() => {
     async function loadUser() {
@@ -27,7 +30,17 @@ export default function DashboardPage() {
 
       const data = await getUserProfile(auth.currentUser.uid);
 
-      setUser(data);
+      if (data) {
+        setUser(data);
+
+        if (data.referralCode) {
+          const count = await getReferralCount(
+            data.referralCode
+          );
+
+          setReferralCount(count);
+        }
+      }
 
       setLoading(false);
     }
@@ -58,7 +71,7 @@ export default function DashboardPage() {
         <StatsCards
           totalEarned={user?.totalEarned ?? 0}
           totalWithdraw={user?.totalWithdraw ?? 0}
-          referrals={0}
+          referrals={referralCount}
         />
 
         <QuickActions />
